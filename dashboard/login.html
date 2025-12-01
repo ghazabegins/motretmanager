@@ -98,7 +98,7 @@
     <script>
         const PASSWORD_RAHASIA = "uci"; // GANTI PASSWORD DISINI
         
-        if(localStorage.getItem('isLoggedIn') === 'true') window.location.href = '/';
+        if(localStorage.getItem('isLoggedIn') === 'true') window.location.href = 'index';
         
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -107,7 +107,7 @@
             
             if(pass.value === PASSWORD_RAHASIA) {
                 localStorage.setItem('isLoggedIn', 'true');
-                window.location.href = '/';
+                window.location.href = 'index';
             } else {
                 document.getElementById('error-msg').style.display = 'block';
                 card.classList.add('shake');
