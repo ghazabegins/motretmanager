@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Konten Web</title>
+    <script>if(localStorage.getItem('isLoggedIn')!=='true')window.location.href='login.html';</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS SAMA SEPERTI SEBELUMNYA */
+        :root { 
+            --bg: #f4f7f6; --text: #333; --card: #fff; --inp-bg: #f0f2f5; --brd: #e1e1e1; 
+            --acc: #11998e; --acc-glow: rgba(17, 153, 142, 0.2);
+            --grad: linear-gradient(135deg, #11998e, #38ef7d); 
+        }
+        [data-theme="dark"] { 
+            --bg: #121212; --text: #e0e0e0; --card: #1e1e1e; --inp-bg: #2b2b2b; --brd: #444; 
+            --acc: #38ef7d; --acc-glow: rgba(56, 239, 125, 0.15);
+            --grad: linear-gradient(135deg, #0e8278, #2ecc71); 
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: 0.3s; }
+        body { font-family: 'Poppins', sans-serif; background-image: url('../book/css/background.jpg'); background-size: cover; background-position: center; background-attachment: fixed; color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(18, 18, 18, 0.85); z-index: -1; backdrop-filter: blur(8px); }
+        .top-bar { width: 100%; max-width: 550px; margin-bottom: 20px; }
+        .back-link { text-decoration: none; color: var(--text); font-weight: 600; display: flex; align-items: center; gap: 8px; opacity: 0.8; }
+        .back-link:hover { opacity: 1; color: var(--acc); }
+        .card { background: var(--card); border-radius: 20px; width: 100%; max-width: 550px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.4); border: 1px solid var(--brd); }
+        .card-header { background: var(--grad); padding: 30px 20px; text-align: center; color: #fff; }
+        .card-body { padding: 30px; }
+        .logo-img { width: 60px; margin: 0 auto 10px; display: block; filter: brightness(0) invert(1); }
+        h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 5px; }
+        p.subtitle { font-size: 0.85rem; opacity: 0.9; }
+        
+        /* TAB MENU */
+        .tab-wrapper { background: var(--inp-bg); padding: 5px; border-radius: 50px; display: flex; justify-content: space-between; margin-bottom: 30px; border: 1px solid var(--brd); gap: 5px; }
+        .tab-btn { flex: 1; background: transparent; border: none; color: var(--text); padding: 10px 5px; border-radius: 40px; cursor: pointer; font-weight: 600; font-size: 0.8rem; opacity: 0.7; text-align: center; display: flex; justify-content: center; align-items: center; gap: 4px; white-space: nowrap; }
+        .tab-btn:hover { opacity: 1; background: rgba(255,255,255,0.05); }
+        .tab-btn.active { background: var(--card); color: var(--acc); opacity: 1; box-shadow: 0 2px 10px rgba(0,0,0,0.1); font-weight: 700; }
+        
+        .form-section { display: none; animation: slideUp 0.4s ease-out; }
+        .form-section.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .section-header { text-align: center; margin-bottom: 25px; border-bottom: 1px solid var(--brd); padding-bottom: 15px; }
+        .section-header h3 { color: var(--acc); margin-bottom: 5px; font-size: 1.1rem; }
+        .section-header .hint { font-size: 0.8rem; opacity: 0.6; }
+        
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.8rem; font-weight: 600; color: var(--text); opacity: 0.9; letter-spacing: 0.5px; text-transform: uppercase; }
+        input, textarea { width: 100%; padding: 15px; border: 1px solid var(--brd); border-radius: 12px; background: var(--inp-bg); color: var(--text); font-size: 0.95rem; font-family: inherit; }
+        input:focus, textarea:focus { border-color: var(--acc); outline: none; background: var(--card); box-shadow: 0 0 0 4px var(--acc-glow); }
+        .btn-submit { width: 100%; padding: 16px; margin-top: 10px; background: var(--acc); color: #000; border: none; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; box-shadow: 0 5px 15px var(--acc-glow); }
+        .btn-submit:hover { transform: translateY(-2px); filter: brightness(1.05); }
+        .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        #preview-logo { max-height: 60px; margin-top: 15px; border-radius: 8px; padding: 5px; background: rgba(255,255,255,0.1); border: 1px dashed var(--brd); }
+        
+        .half-input { display: flex; gap: 15px; }
+        .half-input div { flex: 1; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-overlay"></div>
+
+    <div class="top-bar">
+        <a href="index.html" class="back-link">
+            <span>❮</span> Kembali ke Dashboard
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <img src="https://ghazabegins.cyou/tj/logo.PNG" class="logo-img">
+            <h2>Kelola Web</h2>
+            <p class="subtitle">Atur konten Landing Page dari sini</p>
+        </div>
+        
+        <div class="card-body">
+            <div class="tab-wrapper">
+                <button class="tab-btn active" onclick="switchTab('berita')">📰 Berita</button>
+                <button class="tab-btn" onclick="switchTab('tentang')">👥 Tentang</button> <button class="tab-btn" onclick="switchTab('galeri')">🖼️ Galeri</button>
+                <button class="tab-btn" onclick="switchTab('logo')">🎨 Logo</button>
+            </div>
+
+            <form id="contentForm">
+                <input type="hidden" name="action" value="updateSettings">
+
+                <div id="sec-berita" class="form-section active">
+                    <div class="section-header"><h3>Edit Berita Utama</h3><p class="hint">Teks ini muncul di Hero Section</p></div>
+                    <div class="input-group"><label>Judul Utama</label><input type="text" id="judul_berita" name="judul_berita" placeholder="Headline..."></div>
+                    <div class="input-group"><label>Deskripsi</label><textarea id="isi_berita" name="isi_berita" rows="4" placeholder="Deskripsi..."></textarea></div>
+                    <button type="submit" class="btn-submit">Simpan Berita</button>
+                </div>
+
+                <div id="sec-tentang" class="form-section">
+                    <div class="section-header"><h3>Edit Halaman Tentang</h3><p class="hint">Ubah deskripsi dan foto profil</p></div>
+                    
+                    <div class="input-group"><label>URL Foto Profil</label><input type="url" id="about_img" name="about_img" placeholder="https://..."></div>
+                    <div class="input-group"><label>Judul Bagian</label><input type="text" id="about_title" name="about_title" placeholder="Cth: Siapa Kami?"></div>
+                    
+                    <div class="input-group"><label>Paragraf 1</label><textarea id="about_desc1" name="about_desc1" rows="3" placeholder="Deskripsi awal..."></textarea></div>
+                    <div class="input-group"><label>Paragraf 2</label><textarea id="about_desc2" name="about_desc2" rows="3" placeholder="Deskripsi lanjutan..."></textarea></div>
+
+                    <div class="section-header" style="margin-top:20px; border-top:1px solid var(--brd); padding-top:15px;"><h3>Statistik</h3></div>
+                    
+                    <div class="half-input">
+                        <div><label>Angka Stat 1</label><input type="text" id="stat_1_num" name="stat_1_num" placeholder="500+"></div>
+                        <div><label>Label Stat 1</label><input type="text" id="stat_1_label" name="stat_1_label" placeholder="Pertandingan"></div>
+                    </div>
+                    <div class="half-input" style="margin-top:10px;">
+                        <div><label>Angka Stat 2</label><input type="text" id="stat_2_num" name="stat_2_num" placeholder="50+"></div>
+                        <div><label>Label Stat 2</label><input type="text" id="stat_2_label" name="stat_2_label" placeholder="Tim"></div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Simpan Info Tentang</button>
+                </div>
+
+                <div id="sec-galeri" class="form-section">
+                    <div class="section-header"><h3>Update Foto Galeri</h3><p class="hint">Tempel URL gambar</p></div>
+                    <div class="input-group"><label>Foto 1</label><input type="url" id="foto_1" name="foto_1"></div>
+                    <div class="input-group"><label>Foto 2</label><input type="url" id="foto_2" name="foto_2"></div>
+                    <div class="input-group"><label>Foto 3</label><input type="url" id="foto_3" name="foto_3"></div>
+                    <div class="input-group"><label>Foto 4</label><input type="url" id="foto_4" name="foto_4"></div>
+                    <div class="input-group"><label>Foto 5</label><input type="url" id="foto_5" name="foto_5"></div>
+                    <div class="input-group"><label>Foto 6</label><input type="url" id="foto_6" name="foto_6"></div>
+                    <button type="submit" class="btn-submit">Simpan Galeri</button>
+                </div>
+
+                <div id="sec-logo" class="form-section">
+                    <div class="section-header"><h3>Ganti Logo Website</h3><p class="hint">Gunakan link gambar PNG/JPG</p></div>
+                    <div class="input-group"><label>URL Logo Baru</label><input type="url" id="logo_url" name="logo_url"></div>
+                    <div style="text-align:center;"><img id="preview-logo" src="" style="display:none;"></div>
+                    <button type="submit" class="btn-submit">Simpan Logo</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwJGLSActDA3XA3SGZscC04W85P1TTeXEvBDXoGTd_uxCOM_ENNCIk_jD9MJIMl9B979g/exec';
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById('sec-' + tabName).classList.add('active');
+        }
+
+        // LOAD DATA
+        fetch(scriptURL + '?action=getSettings')
+            .then(r => r.json())
+            .then(data => {
+                // Populate Berita & Logo
+                if(data.judul_berita) document.getElementById('judul_berita').value = data.judul_berita;
+                if(data.isi_berita) document.getElementById('isi_berita').value = data.isi_berita;
+                if(data.logo_url) {
+                    document.getElementById('logo_url').value = data.logo_url;
+                    document.getElementById('preview-logo').src = data.logo_url;
+                    document.getElementById('preview-logo').style.display = 'inline-block';
+                }
+                
+                // Populate Galeri
+                for(let i=1; i<=6; i++) { if(data['foto_'+i]) document.getElementById('foto_'+i).value = data['foto_'+i]; }
+
+                // Populate Tentang (BARU)
+                if(data.about_img) document.getElementById('about_img').value = data.about_img;
+                if(data.about_title) document.getElementById('about_title').value = data.about_title;
+                if(data.about_desc1) document.getElementById('about_desc1').value = data.about_desc1;
+                if(data.about_desc2) document.getElementById('about_desc2').value = data.about_desc2;
+                if(data.stat_1_num) document.getElementById('stat_1_num').value = data.stat_1_num;
+                if(data.stat_1_label) document.getElementById('stat_1_label').value = data.stat_1_label;
+                if(data.stat_2_num) document.getElementById('stat_2_num').value = data.stat_2_num;
+                if(data.stat_2_label) document.getElementById('stat_2_label').value = data.stat_2_label;
+            })
+            .catch(() => console.log('Gagal load data'));
+
+        // PREVIEW LOGO
+        document.getElementById('logo_url').addEventListener('input', function() {
+            const img = document.getElementById('preview-logo');
+            if(this.value) { img.src = this.value; img.style.display = 'inline-block'; } 
+            else { img.style.display = 'none'; }
+        });
+
+        // SIMPAN DATA
+        const form = document.getElementById('contentForm');
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const activeSection = document.querySelector('.form-section.active');
+            const btn = activeSection.querySelector('.btn-submit');
+            const originalText = btn.innerText;
+            
+            btn.innerHTML = "⏳ Menyimpan..."; btn.disabled = true;
+            
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+            .then(r => r.json())
+            .then(() => {
+                btn.innerHTML = "✅ Tersimpan!";
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
+            })
+            .catch(err => { alert("Error Server"); btn.innerHTML = originalText; btn.disabled = false; });
+        });
+    </script>
+</body>
+</html>

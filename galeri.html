@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri - Tiang Jauh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo-container"><img src="book/logo.PNG" alt="Logo" class="nav-logo-img" id="dynamic-logo"></a>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="ri-menu-line"></i></div>
+        <div class="nav-links" id="navMenu">
+            <a href="./">Beranda</a> 
+            <a href="tentang">Tentang</a>
+            <a href="galeri">Galeri</a>
+            <a href="dashboard/" class="mobile-dash-link">Dashboard Admin</a>
+        </div>
+        <a href="dashboard/index.html" class="btn-dashboard">Dashboard</a>
+    </nav>
+
+    <div class="gallery-page">
+        <div class="page-title">
+            <h1>Galeri Foto</h1>
+            <p>Kumpulan momen terbaik yang kami abadikan</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="images/f1-supporter.jpg" id="gal-img-1" loading="lazy" class="clickable-img"><div class="overlay"><h4>Supporter</h4></div></div>
+            <div class="gallery-item"><img src="images/f2-friendlymatch.jpg" id="gal-img-2" loading="lazy" class="clickable-img"><div class="overlay"><h4>Friendly Match</h4></div></div>
+            <div class="gallery-item"><img src="images/f3-celebration.jpg" id="gal-img-3" loading="lazy" class="clickable-img"><div class="overlay"><h4>Celebration</h4></div></div>
+            <div class="gallery-item"><img src="images/f4-teamsquad.jpg" id="gal-img-4" loading="lazy" class="clickable-img"><div class="overlay"><h4>Team Squad</h4></div></div>
+            <div class="gallery-item"><img src="images/f5-greatsave.jpg" id="gal-img-5" loading="lazy" class="clickable-img"><div class="overlay"><h4>Great Save</h4></div></div>
+            <div class="gallery-item"><img src="images/f6-kickoff.jpg" id="gal-img-6" loading="lazy" class="clickable-img"><div class="overlay"><h4>Kick Off</h4></div></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="social-container">
+            <a href="https://web.facebook.com/profile.php?id=61581798351176" target="_blank" class="social-btn"><i class="ri-facebook-fill"></i></a>
+            <a href="https://www.instagram.com/tiangjauhphotography/" target="_blank" class="social-btn"><i class="ri-instagram-fill"></i></a>
+            <a href="https://www.threads.com/@tiangjauhphotography" target="_blank" class="social-btn"><i class="ri-threads-fill"></i></a>
+        </div>
+        <p>&copy; 2025 Tiang Jauh Photography. Medan, Indonesia.</p>
+        <p style="font-size: 0.8rem; margin-top: 5px; opacity: 0.6;">
+            Develop by <a href="https://ghazabegins.cyou/" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1px solid var(--text-muted);">Ghaza Algifari</a>
+        </p>
+    </footer>
+    <div id="imgModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="imgView">
+        <div id="caption"></div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

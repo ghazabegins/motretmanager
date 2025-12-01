@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - Tiang Jauh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo-container"><img src="book/logo.PNG" alt="Logo" class="nav-logo-img" id="dynamic-logo"></a>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="ri-menu-line"></i></div>
+        <div class="nav-links" id="navMenu">
+            <a href="index.html">Beranda</a>
+            <a href="tentang.html" class="active">Tentang</a>
+            <a href="galeri.html">Galeri</a>
+            <a href="dashboard/index.html" class="mobile-dash-link">Dashboard Admin</a>
+        </div>
+        <a href="dashboard/index.html" class="btn-dashboard">Dashboard</a>
+    </nav>
+
+    <section class="about-section">
+        <div class="about-card">
+            <div class="about-img" id="about-img"></div>
+            <div class="about-content">
+                <h2 id="about-title">Siapa Kami?</h2>
+                <p id="about-desc1">Tiang Jauh Photography adalah tim fotografer profesional yang berbasis di Medan, Indonesia. Kami berdedikasi untuk menangkap energi dan emosi dalam setiap pertandingan olahraga.</p>
+                <p id="about-desc2">Mulai dari Liga Amatir hingga Pertandingan Persahabatan, kami hadir untuk memastikan setiap momen berharga Anda terabadikan dalam kualitas tinggi.</p>
+                <div class="stats-grid">
+                    <div class="stat-item"><h3 id="stat-1-num">1000+</h3><p id="stat-1-lbl">Pertandingan</p></div>
+                    <div class="stat-item"><h3 id="stat-2-num">99+</h3><p id="stat-2-lbl">Tim Terpercaya</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-container">
+            <a href="https://web.facebook.com/profile.php?id=61581798351176" target="_blank" class="social-btn"><i class="ri-facebook-fill"></i></a>
+            <a href="https://www.instagram.com/tiangjauhphotography/" target="_blank" class="social-btn"><i class="ri-instagram-fill"></i></a>
+            <a href="https://www.threads.com/@tiangjauhphotography" target="_blank" class="social-btn"><i class="ri-threads-fill"></i></a>
+        </div>
+        <p>&copy; 2025 Tiang Jauh Photography. Medan, Indonesia.</p>
+        <p style="font-size: 0.8rem; margin-top: 5px; opacity: 0.6;">
+            Develop by <a href="https://ghazabegins.cyou/" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1px solid var(--text-muted);">Ghaza Algifari</a>
+        </p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

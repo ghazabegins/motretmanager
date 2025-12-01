@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# 1. Jika user mengakses /tentang.html, redirect paksa ke /tentang (agar URL bersih)
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1 [NC,L,R]
+
+# 2. Jika user mengakses /tentang, server diam-diam membuka tentang.html
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]

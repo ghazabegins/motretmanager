@@ -1,0 +1,163 @@
+/* --- TEMA DASHBOARD --- */
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --input-bg: #2d2d2d;
+    --border: #444;
+    --accent: #38ef7d; /* Hijau Dashboard */
+    --accent-hover: #2ecc71;
+    --error: #e74c3c;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    background-image: url('background.jpg'); /* Gambar background lama tetap ada */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Overlay gelap agar form menonjol & text background tidak mengganggu */
+.bg-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(18, 18, 18, 0.85); /* Gelap transparan */
+    z-index: -1;
+    backdrop-filter: blur(5px);
+}
+
+/* CARD FORMULIR (Mirip Login Dashboard) */
+.formulario {
+    background: var(--card-bg);
+    padding: 40px 30px;
+    border-radius: 20px; /* Sudut membulat dashboard */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 1px solid var(--border);
+}
+
+/* LOGO */
+.imgLogo {
+    display: block;
+    width: 100px;
+    margin: 0 auto 10px;
+    filter: none; /* Logo asli */
+}
+
+/* JUDUL */
+.formulario__titulo {
+    text-align: center;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.formulario__parrafo {
+    text-align: center;
+    color: #aaa;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+/* INPUT & LABEL */
+.input-group {
+    text-align: left;
+}
+
+.formulario__label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--accent); /* Warna label hijau dashboard */
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.formulario__input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-family: inherit;
+    transition: 0.3s;
+}
+
+.formulario__input:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(56, 239, 125, 0.1);
+}
+
+/* Custom Select Arrow fix */
+select.formulario__input {
+    cursor: pointer;
+}
+
+/* TOMBOL SUBMIT (Style Dashboard) */
+.formulario__submit {
+    margin-top: 10px;
+    width: 100%;
+    padding: 16px;
+    background-color: var(--accent);
+    color: #000; /* Text hitam agar kontras dengan hijau terang */
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+    text-transform: uppercase;
+}
+
+.formulario__submit:hover {
+    transform: scale(1.02);
+    background-color: var(--accent-hover);
+    box-shadow: 0 5px 15px rgba(56, 239, 125, 0.3);
+}
+
+/* STATUS MESSAGE */
+.status-message {
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: none; /* Hidden by default */
+}
+
+.status-message.fail {
+    display: block;
+    background-color: rgba(231, 76, 60, 0.2);
+    color: var(--error);
+    border: 1px solid var(--error);
+}
+
+.status-message.send {
+    display: block;
+    background-color: rgba(56, 239, 125, 0.2);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+}
