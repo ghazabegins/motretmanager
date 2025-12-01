@@ -7,7 +7,7 @@
     <link rel="icon" href="https://ghazabegins.cyou/tj/logo.PNG" type="image/png">
     
     <script>
-        if(localStorage.getItem('isLoggedIn') !== 'true') window.location.href = 'login.html';
+        if(localStorage.getItem('isLoggedIn') !== 'true') window.location.href = 'login';
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
@@ -164,7 +164,7 @@
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwJGLSActDA3XA3SGZscC04W85P1TTeXEvBDXoGTd_uxCOM_ENNCIk_jD9MJIMl9B979g/exec'; // GANTI URL DISINI
 
         function logout() {
-            if(confirm('Keluar akun?')) { localStorage.removeItem('isLoggedIn'); window.location.href = 'login.html'; }
+            if(confirm('Keluar akun?')) { localStorage.removeItem('isLoggedIn'); window.location.href = 'login'; }
         }
 
         const toggleSwitch = document.querySelector('.theme-switch input');

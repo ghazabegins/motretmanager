@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Laporan Jadwal</title>
     <link rel="icon" href="https://ghazabegins.cyou/tj/logo.PNG" type="image/png">
-    <script>if(localStorage.getItem('isLoggedIn')!=='true')window.location.href='login.html';</script>
+    <script>if(localStorage.getItem('isLoggedIn')!=='true')window.location.href='login';</script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -92,15 +92,15 @@
             <input type="checkbox" id="checkbox" />
             <div class="slider round"></div>
         </label>
-        <a href="index.html" style="text-decoration:none;font-size:1.5rem">🏠</a>
+        <a href="./" style="text-decoration:none;font-size:1.5rem">🏠</a>
     </div>
 
     <div class="container">
         <div class="header">
             <h2 style="margin:0">Laporan Jadwal</h2>
             <div class="controls">
-                <a href="../index.html" class="btn btn-neu">🌏 Web</a>
-                <a href="index.html" class="btn btn-neu">🏠 Home</a>
+                <a href="../" class="btn btn-neu">🌏 Web</a>
+                <a href="./" class="btn btn-neu">🏠 Home</a>
                 
                 <select id="fBulan" class="filter-select" onchange="load()"><option value="all">Bulan</option>
                     <option value="0">Jan</option><option value="1">Feb</option><option value="2">Mar</option><option value="3">Apr</option>
@@ -109,7 +109,7 @@
                 </select>
                 <select id="fTahun" class="filter-select" onchange="load()"><option value="all">Tahun</option></select>
                 <button class="btn btn-neu" onclick="load()">↻</button>
-                <a href="jadwal_bola.html" class="btn btn-pri">+ Baru</a>
+                <a href="jadwal_bola" class="btn btn-pri">+ Baru</a>
             </div>
         </div>
 

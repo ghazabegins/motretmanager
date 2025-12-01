@@ -92,13 +92,13 @@
             <div id="error-msg">Password salah!</div>
         </form>
         
-        <a href="../index.html" style="display:block; margin-top:20px; color:var(--text-color); text-decoration:none; font-size:0.8rem; opacity:0.7;">← Kembali ke Web Utama</a>
+        <a href="../" style="display:block; margin-top:20px; color:var(--text-color); text-decoration:none; font-size:0.8rem; opacity:0.7;">← Kembali ke Web Utama</a>
     </div>
 
     <script>
         const PASSWORD_RAHASIA = "uci"; // GANTI PASSWORD DISINI
         
-        if(localStorage.getItem('isLoggedIn') === 'true') window.location.href = 'index.html';
+        if(localStorage.getItem('isLoggedIn') === 'true') window.location.href = '/';
         
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -107,7 +107,7 @@
             
             if(pass.value === PASSWORD_RAHASIA) {
                 localStorage.setItem('isLoggedIn', 'true');
-                window.location.href = 'index.html';
+                window.location.href = '/';
             } else {
                 document.getElementById('error-msg').style.display = 'block';
                 card.classList.add('shake');
