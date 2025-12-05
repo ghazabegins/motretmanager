@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watermark Maker - TJ SOSMED TOOLS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container" id="watermarkPage">
+        <div style="text-align: left; width: 100%; margin-bottom: 20px;">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali ke Dashboard</a>
+        </div>
+
+        <header>
+            <h1><i class="fas fa-stamp"></i> Auto <span class="highlight">Watermark</span></h1>
+            <p>Batch Processing: Pasang logo ke banyak foto sekaligus.</p>
+        </header>
+
+        <div class="watermark-workspace">
+            
+            <div class="wm-controls">
+                
+                <div class="input-section">
+                    <label>1. Foto Utama (Maks 10):</label>
+                    <input type="file" id="mainPhotoInput" accept="image/*" multiple class="file-input-custom">
+                    <p id="wmFileCount" style="font-size: 0.8rem; color: #00ff88; margin-top: 5px;">0 foto terpilih.</p>
+                </div>
+
+                <div class="input-section">
+                    <label>2. Ukuran Output (Crop):</label>
+                    <div class="ratio-grid">
+                        <label class="ratio-card">
+                            <input type="radio" name="wmRatio" value="original" checked>
+                            <div class="ratio-box" style="width: 100%; aspect-ratio: 3/2; border: 1px dashed #fff;">Asli</div>
+                            <span>Original</span>
+                        </label>
+                        <label class="ratio-card">
+                            <input type="radio" name="wmRatio" value="square">
+                            <div class="ratio-box" style="aspect-ratio: 1/1;">1:1</div>
+                            <span>Square</span>
+                        </label>
+                        <label class="ratio-card">
+                            <input type="radio" name="wmRatio" value="portrait">
+                            <div class="ratio-box" style="aspect-ratio: 4/5;">4:5</div>
+                            <span>Portrait</span>
+                        </label>
+                        <label class="ratio-card">
+                            <input type="radio" name="wmRatio" value="story">
+                            <div class="ratio-box" style="aspect-ratio: 9/16;">9:16</div>
+                            <span>Story</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label>3. Logo Watermark (PNG):</label>
+                    <input type="file" id="logoInput" accept="image/*" class="file-input-custom">
+                </div>
+
+                <div class="input-section">
+                    <label>4. Posisi Logo:</label>
+                    <div class="position-grid">
+                        <div class="pos-box" data-pos="tl">↖</div>
+                        <div class="pos-box" data-pos="tc">↑</div>
+                        <div class="pos-box" data-pos="tr">↗</div>
+                        <div class="pos-box" data-pos="ml">←</div>
+                        <div class="pos-box active" data-pos="mc">•</div>
+                        <div class="pos-box" data-pos="mr">→</div>
+                        <div class="pos-box" data-pos="bl">↙</div>
+                        <div class="pos-box" data-pos="bc">↓</div>
+                        <div class="pos-box" data-pos="br">↘</div>
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label>5. Ukuran Logo: <span id="sizeVal">20%</span></label>
+                    <input type="range" id="sizeSlider" min="5" max="50" value="20" class="slider-custom">
+                </div>
+
+                <div class="input-section">
+                    <label>6. Transparansi: <span id="alphaVal">100%</span></label>
+                    <input type="range" id="opacitySlider" min="10" max="100" value="100" class="slider-custom">
+                </div>
+
+                <button id="processWmBtn" class="btn-generate" disabled>
+                    <i class="fas fa-layer-group"></i> PROSES SEMUA FOTO
+                </button>
+            </div>
+
+            <div class="wm-preview">
+                <h3>Live Preview (Foto Pertama)</h3>
+                <div class="canvas-wrapper">
+                    <canvas id="wmCanvas"></canvas>
+                    <p id="placeholderText" style="margin-top: 50px; color: #555;">
+                        <i class="fas fa-image" style="font-size: 3rem;"></i><br>
+                        Preview pengaturan muncul di sini
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="loading" class="hidden" style="margin-top: 20px;">
+            <div class="spinner"></div>
+            <p>Sedang memproses...</p>
+        </div>
+
+        <div id="wmResultArea" class="hidden">
+            <h3 style="margin-top: 30px; border-bottom: 2px solid #00ff88; display:inline-block; padding-bottom:10px;">
+                ✅ Hasil Batch Processing
+            </h3>
+            <div id="wmResultsGrid" class="carousel-results"></div>
+            <button onclick="location.reload()" class="btn-select" style="margin-top: 30px; background: transparent; border: 1px solid #00ff88; color: #00ff88;">
+                <i class="fas fa-redo"></i> Reset
+            </button>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 TJ Sosmed Tools. Developed by Ghaza Algifari.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

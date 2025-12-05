@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hashtag Riset - TJ SOSMED TOOLS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container" id="hashtagPage">
+        <div style="text-align: left; width: 100%; margin-bottom: 20px;">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali ke Dashboard</a>
+        </div>
+
+        <header>
+            <h1><i class="fas fa-hashtag"></i> Riset <span class="highlight">Hashtag</span></h1>
+            <p>Temukan kombinasi hashtag terbaik untuk menaikkan jangkauan postingan.</p>
+        </header>
+
+        <div class="caption-form">
+            <div class="form-group">
+                <label>Kata Kunci / Niche:</label>
+                <div class="input-with-btn">
+                    <input type="text" id="keywordInput" placeholder="Contoh: Kopi, Bola, Bisnis, Traveling...">
+                    <button class="btn-search" onclick="generateHashtags()">
+                        <i class="fas fa-search"></i> Cari
+                    </button>
+                </div>
+            </div>
+            <p style="font-size: 0.8rem; color: #888; margin-top: 5px;">*Gunakan satu kata kunci umum untuk hasil terbaik.</p>
+        </div>
+
+        <div id="result" class="hidden">
+            
+            <h3 style="margin-bottom: 20px;">Hasil Analisa untuk: <span id="searchLabel" class="highlight">...</span></h3>
+
+            <div class="hashtag-grid">
+                
+                <div class="hashtag-card">
+                    <div class="card-header">
+                        <h4>🔥 Populer</h4>
+                        <span class="badge-mini">Vol. Tinggi</span>
+                    </div>
+                    <textarea id="tagsHard" readonly></textarea>
+                    <button onclick="copyTags('tagsHard', this)" class="btn-copy-mini">Salin</button>
+                </div>
+
+                <div class="hashtag-card">
+                    <div class="card-header">
+                        <h4>🚀 Growth</h4>
+                        <span class="badge-mini" style="background:#00cc6a">Recomended</span>
+                    </div>
+                    <textarea id="tagsMedium" readonly></textarea>
+                    <button onclick="copyTags('tagsMedium', this)" class="btn-copy-mini">Salin</button>
+                </div>
+
+                <div class="hashtag-card">
+                    <div class="card-header">
+                        <h4>🎯 Spesifik</h4>
+                        <span class="badge-mini" style="background:#2196F3">Relevan</span>
+                    </div>
+                    <textarea id="tagsNiche" readonly></textarea>
+                    <button onclick="copyTags('tagsNiche', this)" class="btn-copy-mini">Salin</button>
+                </div>
+
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <button onclick="copyAllTags()" class="btn-generate">
+                    <i class="fas fa-copy"></i> Salin Gabungan (Mix)
+                </button>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>&copy; 2025 TJ Sosmed Tools. Developed by Ghaza Algifari.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

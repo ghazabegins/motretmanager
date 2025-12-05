@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Carousel Maker - TJ SOSMED TOOLS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container" id="carouselPage">
+        <div style="text-align: left; width: 100%; margin-bottom: 20px;">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali ke Dashboard</a>
+        </div>
+
+        <header>
+            <h1><i class="fas fa-layer-group"></i> Auto <span class="highlight">Carousel</span></h1>
+            <p>Upload foto, pilih ukuran & template, jadi 10 slide instan!</p>
+        </header>
+
+        <div class="carousel-step">
+            <h3><i class="fas fa-images"></i> 1. Upload Foto (Maks 10)</h3>
+            <p style="font-size: 0.9rem; color: #888;">Urutan foto menentukan urutan slide.</p>
+            <input type="file" id="carouselInput" accept="image/*" multiple class="file-input-custom" style="margin-top: 10px;">
+            <p id="fileCount" style="margin-top: 5px; color: #00ff88; font-weight: bold;">0 foto terpilih.</p>
+        </div>
+
+        <div class="carousel-step hidden" id="step2">
+            
+            <h3 style="margin-top: 0;"><i class="fas fa-ruler-combined"></i> 2. Pilih Ukuran</h3>
+            <div class="ratio-grid">
+                <label class="ratio-card">
+                    <input type="radio" name="ratio" value="square" checked>
+                    <div class="ratio-box" style="aspect-ratio: 1/1;">1:1</div>
+                    <span>Square</span>
+                </label>
+                <label class="ratio-card">
+                    <input type="radio" name="ratio" value="portrait">
+                    <div class="ratio-box" style="aspect-ratio: 4/5;">4:5</div>
+                    <span>Portrait (IG)</span>
+                </label>
+                <label class="ratio-card">
+                    <input type="radio" name="ratio" value="story">
+                    <div class="ratio-box" style="aspect-ratio: 9/16;">9:16</div>
+                    <span>Story</span>
+                </label>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #333; margin: 20px 0;">
+
+            <h3><i class="fas fa-swatchbook"></i> 3. Pilih Template</h3>
+            <div class="template-grid">
+                
+                <label class="template-card active">
+                    <input type="radio" name="template" value="minimal" checked>
+                    <div class="preview-box minimal-preview">
+                        <div class="mini-img"></div>
+                        <span>1/10</span>
+                    </div>
+                    <h4>Minimalist Frame</h4>
+                </label>
+
+                <label class="template-card">
+                    <input type="radio" name="template" value="split">
+                    <div class="preview-box split-preview">
+                        <div class="mini-img-top"></div>
+                        <div class="mini-text-bottom">Judul Slide... <br> 1/10</div>
+                    </div>
+                    <h4>Modern Split</h4>
+                </label>
+
+                 <label class="template-card">
+                    <input type="radio" name="template" value="cinematic">
+                    <div class="preview-box cinematic-preview">
+                        <div class="mini-overlay">Judul Epik <br> 1/10</div>
+                    </div>
+                    <h4>Cinematic Dark</h4>
+                </label>
+
+                <label class="template-card">
+                    <input type="radio" name="template" value="journal">
+                    <div class="preview-box journal-preview">
+                        <div class="mini-journal-header">DEC 2025</div>
+                        <div class="mini-journal-photo"></div>
+                        <div class="mini-journal-caption">moments.</div>
+                    </div>
+                    <h4>Aesthetic Journal</h4>
+                </label>
+
+            </div>
+
+            <div style="margin-top: 20px;">
+                <label for="carouselTitle" style="display: block; margin-bottom: 5px; color: #00ff88; font-weight: bold;">Judul Carousel (Opsional):</label>
+                <input type="text" id="carouselTitle" placeholder="Misal: Trip to Bali 2025" class="file-input-custom">
+            </div>
+
+            <button id="generateBtn" class="btn-generate" style="margin-top: 20px; width: 100%;">
+                <i class="fas fa-magic"></i> GENERATE SLIDES
+            </button>
+        </div>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Sedang meracik slide, mohon bersabar...</p>
+        </div>
+
+        <div id="result" class="hidden" style="text-align: center;">
+            <h3>✨ Carousel Siap!</h3>
+            <p style="color: #aaa; margin-bottom: 20px;">Klik tombol di bawah setiap gambar untuk download.</p>
+            
+            <div id="carouselResultsGrid" class="carousel-results">
+                </div>
+
+            <button onclick="location.reload()" class="btn-select" style="margin-top: 30px; background: transparent; border: 1px solid #00ff88; color: #00ff88;">
+                <i class="fas fa-redo"></i> Buat Baru
+            </button>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 TJ Sosmed Tools. Developed by Ghaza Algifari.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

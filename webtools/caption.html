@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Caption Generator - TJ SOSMED TOOLS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container" id="captionPage">
+        <div style="text-align: left; width: 100%; margin-bottom: 20px;">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali ke Dashboard</a>
+        </div>
+
+        <header>
+            <h1><i class="fas fa-magic"></i> Smart <span class="highlight">Caption</span></h1>
+            <p>Buat caption Instagram/TikTok menarik secara instan.</p>
+        </header>
+
+        <div class="caption-form">
+            <div class="form-group">
+                <label>Topik / Kata Kunci:</label>
+                <input type="text" id="topicInput" placeholder="Contoh: Kopi, Pantai, Kerja Keras...">
+            </div>
+
+            <div class="form-group">
+                <label>Suasana (Tone):</label>
+                <select id="toneInput">
+                    <option value="santai">☕ Santai / Chill</option>
+                    <option value="lucu">🤪 Lucu / Humor</option>
+                    <option value="motivasi">🔥 Motivasi / Bijak</option>
+                    <option value="promosi">📢 Promosi / Jualan</option>
+                    <option value="aesthetic">✨ Aesthetic / Puitis</option>
+                </select>
+            </div>
+
+            <button class="btn-generate" onclick="generateCaption()">
+                <i class="fas fa-robot"></i> Buat Caption
+            </button>
+        </div>
+
+        <div id="result" class="hidden">
+            <h3>Hasil Caption:</h3>
+            <div class="caption-box">
+                <p id="captionText" contenteditable="true">Hasil akan muncul di sini...</p>
+            </div>
+            
+            <div class="action-buttons">
+                <button onclick="copyCaption()" class="btn-copy">
+                    <i class="fas fa-copy"></i> Salin Teks
+                </button>
+                <button onclick="generateCaption()" class="btn-refresh">
+                    <i class="fas fa-sync-alt"></i> Buat Ulang
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>Tips: Klik teks hasil untuk mengedit manual sebelum disalin.</p><br>
+            <p>&copy; 2025 TJ Sosmed Tools. Developed by Ghaza Algifari.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

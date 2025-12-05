@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metadata Viewer - TJ SOSMED TOOLS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container" id="viewerPage">
+        <div style="text-align: left; width: 100%; margin-bottom: 20px;">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali ke Dashboard</a>
+        </div>
+
+        <header>
+            <h1><i class="fas fa-eye"></i> Metadata <span class="highlight">Viewer</span></h1>
+            <p>Intip data rahasia (EXIF), settingan kamera, & lokasi foto.</p>
+        </header>
+
+        <div class="upload-area" id="dropZoneViewer">
+            <div class="icon-upload">
+                <i class="fas fa-search-plus"></i>
+            </div>
+            <h3>Drag & Drop Foto Asli di sini</h3>
+            <p>Gunakan file JPG asli dari kamera (bukan hasil Screenshot/WA).</p>
+            <button class="btn-select" onclick="document.getElementById('fileInputViewer').click()">Pilih Foto</button>
+            <input type="file" id="fileInputViewer" accept="image/jpeg, image/tiff" hidden>
+        </div>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Sedang membaca data...</p>
+        </div>
+
+        <div id="result" class="hidden">
+            <div class="viewer-layout">
+                <div class="viewer-left">
+                    <img id="imgPreview" src="" alt="Preview Foto">
+                    <div id="basicInfo" class="basic-info">
+                        </div>
+                </div>
+
+                <div class="viewer-right">
+                    <h3><i class="fas fa-list"></i> Data Lengkap</h3>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Cari data (misal: ISO, lens, date)..." 
+                        style="width: 100%; padding: 10px; background: #222; border: 1px solid #444; color: #fff; border-radius: 5px; outline: none;">
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="exif-table">
+                            <thead>
+                                <tr>
+                                    <th>Nama Data</th>
+                                    <th>Nilai</th>
+                                </tr>
+                            </thead>
+                            <tbody id="exifTableBody">
+                                </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="gpsContainer" class="hidden" style="margin-top: 20px;">
+                        <a href="#" id="mapsLink" target="_blank" class="btn-maps">
+                            <i class="fas fa-map-marker-alt"></i> Lihat Lokasi di Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="location.reload()" class="btn-generate" style="margin-top: 30px;">
+                <i class="fas fa-redo"></i> Cek Foto Lain
+            </button>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 TJ Sosmed Tools. Developed by Ghaza Algifari.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Downloader - TJ SOSMED TOOLS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <div style="text-align: left; width: 100%; margin-bottom: 20px;">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali ke Dashboard</a>
+        </div>
+
+        <header>
+            <h1><i class="fas fa-cloud-download-alt"></i> Media <span class="highlight">Downloader</span></h1>
+            <p>Download Postingan Feed, Reels, TikTok, & Video FB.</p>
+        </header>
+
+        <div class="mode-switch-container">
+            <div class="mode-switch">
+                
+                <input type="radio" id="modePost" name="downloadMode" value="post" checked>
+                <label for="modePost">
+                    <i class="fas fa-photo-video"></i> Post/Reels
+                </label>
+
+                <input type="radio" id="modeStory" name="downloadMode" value="story" disabled>
+                <label for="modeStory" class="disabled-option">
+                    <i class="fas fa-history"></i> Story <small>(Segera)</small>
+                </label>
+                
+                <div class="slider"></div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="urlInput" placeholder="Tempel link Instagram, TikTok, atau Facebook...">
+            <button onclick="downloadVideo()" id="btnDownload">Download</button>
+        </div>
+        
+        <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">
+            *Support: Instagram (Post/Reels), TikTok (No Watermark), Facebook.
+        </p>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Sedang memproses data...</p>
+        </div>
+
+        <div id="result" class="hidden">
+            <div class="video-preview">
+                <p id="videoTitle">Judul Video</p>
+                <div class="download-buttons">
+                    <a href="#" id="downloadLink" class="btn-save" target="_blank">
+                        <i class="fas fa-save"></i> DOWNLOAD
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 TJ Sosmed Tools. Developed by Ghaza Algifari.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

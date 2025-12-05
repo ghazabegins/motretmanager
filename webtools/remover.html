@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metadata Remover - TJ SOSMED TOOLS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <div style="text-align: left; width: 100%; margin-bottom: 20px;">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali ke Dashboard</a>
+        </div>
+
+        <header>
+            <h1><i class="fas fa-shield-alt"></i> Metadata <span class="highlight">Remover</span></h1>
+            <p>Hapus jejak lokasi GPS & info perangkat dari foto Anda demi privasi.</p>
+        </header>
+
+        <div class="upload-area" id="dropZone">
+            <div class="icon-upload">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3>Drag & Drop Foto di sini</h3>
+            <p>atau</p>
+            <button class="btn-select" onclick="document.getElementById('fileInput').click()">Pilih Foto</button>
+            <input type="file" id="fileInput" accept="image/jpeg, image/png, image/jpg" hidden>
+        </div>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Sedang membersihkan jejak...</p>
+        </div>
+
+        <div id="result" class="hidden">
+            <div class="result-box">
+                <div class="info-compare">
+                    <div class="info-item">
+                        <span class="label">Status:</span>
+                        <span class="val success"><i class="fas fa-check-circle"></i> Bersih (Clean)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Nama File:</span>
+                        <span class="val" id="fileName">foto.jpg</span>
+                    </div>
+                </div>
+
+                <img id="previewImage" src="" alt="Preview Bersih" class="img-preview">
+                
+                <a href="#" id="downloadCleanBtn" class="btn-save" download>
+                    <i class="fas fa-download"></i> Download Foto Bersih
+                </a>
+                
+                <br><br>
+                <button onclick="location.reload()" class="back-btn" style="background:none; border:none; color:#aaa; cursor:pointer;">
+                    <i class="fas fa-redo"></i> Proses Foto Lain
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>Secure Client-Side Processing.</p>
+            <p>&copy; 2025 TJ Sosmed Tools. Developed by Ghaza Algifari.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
