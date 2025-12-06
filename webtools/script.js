@@ -758,101 +758,103 @@ if (document.getElementById('carouselPage')) {
     }
 }
 
-// ==========================================
-// 11. FITUR BARU: IG ROASTING GENERATOR
-// ==========================================
-if (document.getElementById('roastPage')) {
+/* ==========================================
+   11. FITUR BARU: IG ROASTING GENERATOR (FIXED)
+   ========================================== */
+(function() { // Membungkus agar aman dari konflik
+    const roastPage = document.getElementById('roastPage');
     
-    // Database Hujatan / Template Roasting
-    const roasts = {
-        "selebgram": [
-            "Bio tulisannya 'Business Inquiries' tapi yang DM cuma olshop peninggi badan.",
-            "Feeds lo rapi banget, sayang hidup lo berantakan.",
-            "Sok-sokan estetik foto kopi, padahal aslinya minum ale-ale.",
-            "Followers 2k, Following 1.9k. Itu akun apa asrama putri?",
-            "Story 20 titik sehari, dikira lagi bikin presentasi PPT?",
-            "Foto OOTD tiap hari, tapi bajunya itu-itu doang. Endorse laundry kiloan ya?"
-        ],
-        "sadboy": [
-            "Story isinya lagu galau, padahal putusnya cuma di imajinasi.",
-            "Profil lo lebih gelap dari masa depan lo.",
-            "Bio: 'Trust no one'. Halah, dipinjemin duit 50 ribu juga langsung percaya.",
-            "Sering repost quotes bijak biar dikira dewasa, aslinya cengeng.",
-            "Highlight story isinya 'Memories', padahal isinya cuma foto langit mendung."
-        ],
-        "wibu": [
-            "Bau bawangnya kecium sampe ke notifikasi gue.",
-            "Bio pake bahasa Jepang hasil Google Translate, artinya 'Saya suka makan sabun'.",
-            "Poto profil anime, pasti aslinya jarang mandi.",
-            "Story isinya waifu gepeng, sadar woy dia gak nyata!",
-            "Cita-cita ke Akihabara, realita nongkrong di warkop belom bayar gorengan."
-        ],
-        "rich": [
-            "Pamer iPhone boba, padahal cicilan paylater belum lunas.",
-            "Foto di mobil orang, caption 'Work Hard'. Hard apanya? Halu?",
-            "Instastory makan mewah, pas di rumah makannya mie instan dibagi dua.",
-            "Sok crypto enthusiast, padahal beli dogecoin 10 ribu perak nyangkut.",
-            "Outfit branded KW Mangga Dua bangga banget dipamerin."
-        ],
-        "general": [
-            "Muka pas-pasan, filter kebagusan. Kalo ketemu asli dikira beda orang.",
-            "Akun digembok, dikira ada yang mau maling foto aib lu?",
-            "Rajin update status, tapi males update skill.",
-            "Posting foto caption 'No Filter', padahal editnya 3 aplikasi.",
-            "Itu muka apa adonan donat? Tepungnya tebel banget."
-        ]
-    };
+    if (roastPage) {
+        console.log("Fitur Roasting Aktif!"); // Cek di Console jika ini muncul
 
-    window.generateRoast = function() {
-        const username = document.getElementById('roastUsername').value.trim();
-        const type = document.getElementById('roastPersona').value;
-        const level = document.getElementById('roastLevel').value;
-        
-        if (!username) { alert("Masukin username dulu woy!"); return; }
+        const roasts = {
+            "selebgram": [
+                "Bio 'Business Inquiries' tapi DM isinya cuma peninggi badan.",
+                "Feeds rapi, sayang hidup lo berantakan.",
+                "Sok estetik foto kopi, aslinya minum ale-ale.",
+                "Followers 2k, Following 1.9k. Itu akun apa asrama?",
+                "Story 20 titik sehari, lagi bikin PPT kuliah?",
+                "Foto OOTD tiap hari, baju itu-itu doang. Endorse laundry?"
+            ],
+            "sadboy": [
+                "Story lagu galau, padahal putusnya cuma di imajinasi.",
+                "Profil lo lebih gelap dari masa depan.",
+                "Bio 'Trust no one'. Halah, dipinjemin gocap langsung percaya.",
+                "Repost quotes bijak biar dikira dewasa, aslinya cengeng.",
+                "Highlight 'Memories' isinya cuma foto langit mendung."
+            ],
+            "wibu": [
+                "Bau bawangnya nembus layar HP gue.",
+                "Bio Jepang hasil Google Translate, artinya 'Saya suka sabun'.",
+                "PP Anime = Pendapat tidak valid.",
+                "Story waifu gepeng, sadar woy dia gak nyata!",
+                "Cita-cita ke Akihabara, realita nongkrong di warkop."
+            ],
+            "rich": [
+                "Pamer iPhone boba, cicilan paylater belom lunas.",
+                "Foto di mobil orang, caption 'Work Hard'. Halu?",
+                "Instastory steak, di rumah makan mie instan dibagi dua.",
+                "Sok crypto, beli koin micin 10 ribu nyangkut nangis.",
+                "Outfit KW Mangga Dua bangga banget dipamerin."
+            ],
+            "general": [
+                "Muka pas-pasan, filter kebagusan. Ketemu asli dikira beda orang.",
+                "Akun digembok, dikira ada yang mau maling foto aib?",
+                "Rajin update status, males update skill.",
+                "Caption 'No Filter', padahal edit 3 aplikasi.",
+                "Itu muka apa adonan donat? Tepungnya tebel amat."
+            ]
+        };
 
-        const loading = document.getElementById('loading');
-        const result = document.getElementById('result');
-        const output = document.getElementById('roastOutput');
-        const loadText = document.getElementById('loadingText');
+        // Pasang fungsi ke window agar bisa dipanggil HTML onclick
+        window.generateRoast = function() {
+            const username = document.getElementById('roastUsername').value.trim();
+            const type = document.getElementById('roastPersona').value;
+            const level = document.getElementById('roastLevel').value;
+            
+            if (!username) { alert("Masukin username dulu woy!"); return; }
 
-        // Reset Tampilan
-        result.classList.add('hidden');
-        loading.classList.remove('hidden');
-        
-        // Simulasi Analisa "AI" (biar terlihat canggih)
-        const steps = ["Mencari akun...", "Menganalisa feed cringe...", "Menghitung jumlah filter...", "Menyiapkan mental...", "Memasak hujatan..."];
-        let step = 0;
-        
-        const interval = setInterval(() => {
-            if(step < steps.length) {
-                loadText.innerText = steps[step];
-                step++;
-            } else {
-                clearInterval(interval);
-                
-                // Proses Random Roasting
-                const templates = roasts[type] || roasts['general'];
-                const randomRoast = templates[Math.floor(Math.random() * templates.length)];
-                const randomRoast2 = roasts['general'][Math.floor(Math.random() * roasts['general'].length)];
-                
-                let finalRoast = "";
-                
-                if (level === 'mild') {
-                    finalRoast = `Buat @${username}: ${randomRoast} 😂`;
-                } else if (level === 'spicy') {
-                    finalRoast = `Eh @${username}, dengerin ya. ${randomRoast} Tambah lagi nih: ${randomRoast2} 🔥`;
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const output = document.getElementById('roastOutput');
+            const loadText = document.getElementById('loadingText');
+
+            result.classList.add('hidden');
+            loading.classList.remove('hidden');
+            
+            const steps = ["Mencari akun...", "Menganalisa feed cringe...", "Menghitung jumlah filter...", "Menyiapkan mental...", "Memasak hujatan..."];
+            let step = 0;
+            
+            const interval = setInterval(() => {
+                if(step < steps.length) {
+                    if(loadText) loadText.innerText = steps[step];
+                    step++;
                 } else {
-                    finalRoast = `WOY @${username}! 💀 ${randomRoast} Muka tembok ya? ${randomRoast2} Mending lu hapus akun aja dah. 🚮`;
+                    clearInterval(interval);
+                    
+                    const templates = roasts[type] || roasts['general'];
+                    const randomRoast = templates[Math.floor(Math.random() * templates.length)];
+                    const randomRoast2 = roasts['general'][Math.floor(Math.random() * roasts['general'].length)];
+                    
+                    let finalRoast = "";
+                    if (level === 'mild') {
+                        finalRoast = `Buat @${username}: ${randomRoast} 😂`;
+                    } else if (level === 'spicy') {
+                        finalRoast = `Eh @${username}, dengerin ya. ${randomRoast} Tambah lagi nih: ${randomRoast2} 🔥`;
+                    } else {
+                        finalRoast = `WOY @${username}! 💀 ${randomRoast} Muka tembok ya? ${randomRoast2} Mending lu hapus akun aja dah. 🚮`;
+                    }
+
+                    if(output) output.innerText = finalRoast;
+                    loading.classList.add('hidden');
+                    result.classList.remove('hidden');
                 }
+            }, 800);
+        };
 
-                output.innerText = finalRoast;
-                loading.classList.add('hidden');
-                result.classList.remove('hidden');
-            }
-        }, 800); // Delay per step biar ada efek loading
-    };
-
-    window.copyRoast = function() {
-        navigator.clipboard.writeText(document.getElementById('roastOutput').innerText).then(() => alert("Hujatan tersalin! Siap diposting."));
-    };
-}
+        window.copyRoast = function() {
+            const text = document.getElementById('roastOutput').innerText;
+            navigator.clipboard.writeText(text).then(() => alert("Hujatan tersalin!"));
+        };
+    }
+})();
