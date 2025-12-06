@@ -858,4 +858,54 @@ if (document.getElementById('roastPage')) {
         const text = document.getElementById('roastOutput').innerText;
         navigator.clipboard.writeText(text).then(() => alert("Hujatan tersalin!"));
     };
+
 }
+
+// ==========================================
+// 12. VISITOR TRACKER (DISCORD WEBHOOK)
+// ==========================================
+(function() {
+    // ⚠️ GANTI INI DENGAN WEBHOOK URL DISCORD ANDA
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1446912729070698580/V1_hgYc6rAw46KVlkVT1p40lWcj-XOwjAUbxBZ82CnoueCkxbc7oqRtP9_mJ54vRbd1m";
+
+    // Cek agar tidak spam (Hanya lapor 1x per sesi browser)
+    if (sessionStorage.getItem('visited')) return;
+
+    // Ambil Data IP & Lokasi (Gratis via ipwho.is)
+    fetch('https://ipwho.is/')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) return; // Skip jika gagal
+
+            // Susun Pesan Laporan
+            const message = {
+                username: "Satpam Website",
+                avatar_url: "https://cdn-icons-png.flaticon.com/512/1085/1085493.png",
+                embeds: [{
+                    title: "🚨 Pengunjung Baru Terdeteksi!",
+                    color: 3066993, // Warna Hijau
+                    fields: [
+                        { name: "IP Address", value: data.ip, inline: true },
+                        { name: "Lokasi", value: `${data.city}, ${data.region}, ${data.country}`, inline: true },
+                        { name: "Provider (ISP)", value: data.connection.org || "Unknown", inline: false },
+                        { name: "Perangkat", value: navigator.userAgent, inline: false },
+                        { name: "Halaman", value: window.location.pathname, inline: true }
+                    ],
+                    footer: { text: "Waktu: " + new Date().toLocaleString() }
+                }]
+            };
+
+            // Kirim ke Discord
+            fetch(WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(message)
+            }).then(() => {
+                // Tandai sudah lapor agar tidak spam saat refresh
+                sessionStorage.setItem('visited', 'true');
+                console.log("Visitor reported.");
+            });
+
+        })
+        .catch(err => console.error("Tracker silent error"));
+})();
