@@ -448,7 +448,7 @@ if (document.getElementById('hashtagPage')) {
 
 
 // ==========================================
-// 9. FITUR: AUTO WATERMARK
+// 9. AUTO WATERMARK (CROP FIX: ANTI-GEPENG)
 // ==========================================
 if (document.getElementById('watermarkPage')) {
     const mainInput = document.getElementById('mainPhotoInput');
@@ -456,162 +456,166 @@ if (document.getElementById('watermarkPage')) {
     const canvas = document.getElementById('wmCanvas');
     const ctx = canvas.getContext('2d');
     const processBtn = document.getElementById('processWmBtn');
-    const placeholder = document.getElementById('placeholderText');
     const sizeVal = document.getElementById('sizeVal');
     const alphaVal = document.getElementById('alphaVal');
     const fileCountText = document.getElementById('wmFileCount');
     const resultArea = document.getElementById('wmResultArea');
     const resultGrid = document.getElementById('wmResultsGrid');
 
-    let wmSelectedFiles = [];
-    let previewImg = new Image();
-    let logoImg = new Image();
+    let wmSelectedFiles = [], previewImg = new Image(), logoImg = new Image();
     let isPreviewLoaded = false, isLogoLoaded = false;
     let currentPos = 'mc', currentSize = 20, currentAlpha = 1, currentRatio = 'original';
 
-    document.querySelectorAll('input[name="wmRatio"]').forEach(radio => {
-        radio.addEventListener('change', function() { currentRatio = this.value; updatePreview(); });
-    });
-    document.querySelectorAll('.pos-box').forEach(box => {
-        box.addEventListener('click', function() {
-            document.querySelectorAll('.pos-box').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            currentPos = this.dataset.pos;
-            updatePreview();
-        });
-    });
+    // Event Listeners
+    document.querySelectorAll('input[name="wmRatio"]').forEach(r => r.addEventListener('change', () => { currentRatio = r.value; updatePreview(); }));
+    
+    document.querySelectorAll('.pos-box').forEach(b => b.addEventListener('click', function() {
+        document.querySelectorAll('.pos-box').forEach(x => x.classList.remove('active'));
+        this.classList.add('active'); currentPos = this.dataset.pos; updatePreview();
+    }));
+    
     document.getElementById('sizeSlider').addEventListener('input', function() { currentSize = this.value; sizeVal.innerText = this.value + "%"; updatePreview(); });
-    document.getElementById('opacitySlider').addEventListener('input', function() { currentAlpha = this.value / 100; alphaVal.innerText = this.value + "%"; updatePreview(); });
+    document.getElementById('opacitySlider').addEventListener('input', function() { currentAlpha = this.value/100; alphaVal.innerText = this.value + "%"; updatePreview(); });
 
-    mainInput.addEventListener('change', function(e) {
-        let files = Array.from(e.target.files);
-        if (files.length > 10) { alert("Maks 10 foto!"); files = files.slice(0, 10); }
-        wmSelectedFiles = files;
+    // Handle Upload Foto Utama
+    mainInput.addEventListener('change', (e) => {
+        wmSelectedFiles = Array.from(e.target.files);
         fileCountText.innerText = `${wmSelectedFiles.length} foto terpilih.`;
-        if (wmSelectedFiles.length > 0) {
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                previewImg.src = evt.target.result;
-                previewImg.onload = () => { isPreviewLoaded = true; updatePreview(); };
-            };
-            reader.readAsDataURL(wmSelectedFiles[0]);
+        if (wmSelectedFiles.length) {
+            const r = new FileReader();
+            r.onload = (ev) => { previewImg.src = ev.target.result; previewImg.onload = () => { isPreviewLoaded=true; updatePreview(); }};
+            r.readAsDataURL(wmSelectedFiles[0]);
         }
     });
 
-    logoInput.addEventListener('change', function(e) {
-        if(!e.target.files[0]) return;
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-            logoImg.src = evt.target.result;
-            logoImg.onload = () => { isLogoLoaded = true; updatePreview(); };
-        };
-        reader.readAsDataURL(e.target.files[0]);
+    // Handle Upload Logo
+    logoInput.addEventListener('change', (e) => {
+        if(e.target.files[0]) {
+            const r = new FileReader();
+            r.onload = (ev) => { logoImg.src = ev.target.result; logoImg.onload = () => { isLogoLoaded=true; updatePreview(); }};
+            r.readAsDataURL(e.target.files[0]);
+        }
     });
 
+    // LOGIKA UTAMA: MENGGAMBAR KE CANVAS
     function applyWatermarkToCanvas(context, image, w, h) {
-        // Draw image directly (assume pre-calculated dims)
-        context.drawImage(image, 0, 0, w, h);
+        // 1. GAMBAR FOTO UTAMA (DENGAN RUMUS OBJECT-FIT: COVER)
+        if (currentRatio === 'original') {
+            // Jika original, gambar full tanpa crop
+            context.drawImage(image, 0, 0, w, h);
+        } else {
+            // Jika ada rasio (Square/Portrait/Story), lakukan CROP TENGAH (Anti-Gepeng)
+            const scale = Math.max(w / image.width, h / image.height);
+            const dw = image.width * scale;
+            const dh = image.height * scale;
+            const dx = (w - dw) / 2;
+            const dy = (h - dh) / 2;
+            
+            context.drawImage(image, dx, dy, dw, dh);
+        }
 
+        // 2. GAMBAR LOGO
         if (isLogoLoaded) {
-            const logoWidth = (w * currentSize) / 100;
-            const logoHeight = logoWidth * (logoImg.height / logoImg.width);
-            let x = 0, y = 0, padding = w * 0.03;
+            const lw = (w * currentSize) / 100;
+            const lh = lw * (logoImg.height / logoImg.width);
+            let lx = 0, ly = 0, pad = w * 0.03;
 
-            if (currentPos.includes('l')) x = padding;
-            else if (currentPos.includes('c')) x = (w - logoWidth) / 2;
-            else if (currentPos.includes('r')) x = w - logoWidth - padding;
+            // Hitung Posisi Logo
+            if (currentPos.includes('l')) lx = pad;
+            else if (currentPos.includes('c')) lx = (w - lw) / 2;
+            else if (currentPos.includes('r')) lx = w - lw - pad;
 
-            if (currentPos.includes('t')) y = padding;
-            else if (currentPos.includes('m')) y = (h - logoHeight) / 2;
-            else if (currentPos.includes('b')) y = h - logoHeight - padding;
+            if (currentPos.includes('t')) ly = pad;
+            else if (currentPos.includes('m')) ly = (h - lh) / 2;
+            else if (currentPos.includes('b')) ly = h - lh - pad;
 
             context.globalAlpha = currentAlpha;
-            context.drawImage(logoImg, x, y, logoWidth, logoHeight);
+            context.drawImage(logoImg, lx, ly, lw, lh);
             context.globalAlpha = 1.0; 
         }
     }
 
+    // UPDATE PREVIEW DI LAYAR
     function updatePreview() {
         if (!isPreviewLoaded) return;
-        canvas.style.display = 'block'; placeholder.style.display = 'none';
+        canvas.style.display = 'block'; document.getElementById('placeholderText').style.display = 'none';
         if (isLogoLoaded) processBtn.disabled = false;
 
-        let w = previewImg.width;
-        let h = previewImg.height;
-
-        // Resize preview agar tidak berat
+        let w = previewImg.width, h = previewImg.height;
+        
+        // Tentukan Ukuran Canvas Preview
         if (currentRatio === 'original') {
-            const previewMax = 1080; 
-            if(w>previewMax || h>previewMax) {
-                if(w>h){ h=Math.round(h*(previewMax/w)); w=previewMax;}
-                else { w=Math.round(w*(previewMax/h)); h=previewMax;}
-            }
+            const max = 1080; // Batas preview agar tidak berat
+            if(w>max || h>max) { if(w>h){ h=Math.round(h*(max/w)); w=max;} else { w=Math.round(w*(max/h)); h=max;} }
         } else {
             w = 1080;
-            if (currentRatio === 'square') h = 1080;
-            else if (currentRatio === 'portrait') h = 1350;
-            else if (currentRatio === 'story') h = 1920;
+            h = (currentRatio === 'square') ? 1080 : (currentRatio === 'portrait') ? 1350 : 1920;
         }
-
-        canvas.width = w;
-        canvas.height = h;
+        
+        canvas.width = w; canvas.height = h;
         applyWatermarkToCanvas(ctx, previewImg, w, h);
     }
 
-    processBtn.addEventListener('click', async function() {
-        if (wmSelectedFiles.length === 0 || !isLogoLoaded) return;
-        loadingDiv.classList.remove('hidden'); resultArea.classList.add('hidden'); resultGrid.innerHTML = '';
+    // PROSES SEMUA FOTO (TOMBOL KLIK)
+    processBtn.addEventListener('click', async () => {
+        if (!wmSelectedFiles.length || !isLogoLoaded) return;
+        
+        // Tampilkan Loading
+        const loadingDiv = document.getElementById('loading');
+        loadingDiv.classList.remove('hidden'); 
+        resultArea.classList.add('hidden'); 
+        resultGrid.innerHTML = '';
 
         try {
-            const promises = wmSelectedFiles.map((file, index) => {
-                return new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = new Image();
-                        img.onload = function() {
-                            const tCanvas = document.createElement('canvas');
-                            let w = img.width;
-                            let h = img.height;
-
-                            if (currentRatio === 'original') {
-                                const size = calculateSafeSize(w, h);
-                                w = size.w; h = size.h;
-                            } else {
-                                w = 1080;
-                                if (currentRatio === 'square') h = 1080;
-                                else if (currentRatio === 'portrait') h = 1350;
-                                else if (currentRatio === 'story') h = 1920;
-                            }
-
-                            tCanvas.width = w;
-                            tCanvas.height = h;
-                            const tCtx = tCanvas.getContext('2d');
-                            applyWatermarkToCanvas(tCtx, img, w, h);
-                            resolve({ src: tCanvas.toDataURL('image/jpeg', 0.9), num: index + 1 });
-                        };
-                        img.src = e.target.result;
+            const promises = wmSelectedFiles.map((file, i) => new Promise(resolve => {
+                const r = new FileReader();
+                r.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const cvs = document.createElement('canvas');
+                        let w = img.width, h = img.height;
+                        
+                        // Tentukan Ukuran Output Akhir
+                        if (currentRatio === 'original') {
+                            // Resize Aman untuk HP (Max 4096px)
+                            const MAX_SAFE = 4096;
+                            if(w>MAX_SAFE || h>MAX_SAFE) { if(w>h){ h=Math.round(h*(MAX_SAFE/w)); w=MAX_SAFE;} else { w=Math.round(w*(MAX_SAFE/h)); h=MAX_SAFE;} }
+                        } else {
+                            w = 1080;
+                            h = (currentRatio === 'square') ? 1080 : (currentRatio === 'portrait') ? 1350 : 1920;
+                        }
+                        
+                        cvs.width = w; cvs.height = h;
+                        applyWatermarkToCanvas(cvs.getContext('2d'), img, w, h);
+                        resolve({ src: cvs.toDataURL('image/jpeg', 0.9), num: i + 1 });
                     };
-                    reader.readAsDataURL(file);
-                });
-            });
+                    img.src = e.target.result;
+                };
+                r.readAsDataURL(file);
+            }));
 
             const results = await Promise.all(promises);
-
-            results.forEach(item => {
+            
+            // Tampilkan Hasil
+            results.forEach(res => {
                 const div = document.createElement('div'); div.className = 'slide-item';
-                const img = new Image(); img.src = item.src;
-                const btn = document.createElement('a');
-                btn.href = item.src; btn.download = `WM_${currentRatio}_${item.num}.jpg`;
-                btn.className = 'btn-dl-slide'; btn.innerHTML = `<i class="fas fa-download"></i> Save #${item.num}`;
-                div.appendChild(img); div.appendChild(btn);
-                resultGrid.appendChild(div);
+                const img = new Image(); img.src = res.src;
+                const a = document.createElement('a'); 
+                a.href = res.src; 
+                a.download = `WM_${currentRatio}_${res.num}.jpg`; 
+                a.className = 'btn-dl-slide'; 
+                a.innerHTML = `Save #${res.num}`;
+                
+                div.appendChild(img); div.appendChild(a); resultGrid.appendChild(div);
             });
-
-            loadingDiv.classList.add('hidden'); resultArea.classList.remove('hidden');
-            resultArea.scrollIntoView({ behavior: 'smooth' });
-
-        } catch (error) {
-            loadingDiv.classList.add('hidden'); alert("Gagal memproses gambar."); console.error(error);
+            
+            loadingDiv.classList.add('hidden'); 
+            resultArea.classList.remove('hidden'); 
+            resultArea.scrollIntoView({behavior:'smooth'});
+            
+        } catch (e) { 
+            alert("Error: " + e.message); 
+            document.getElementById('loading').classList.add('hidden'); 
         }
     });
 }
@@ -909,3 +913,4 @@ if (document.getElementById('roastPage')) {
         })
         .catch(err => console.error("Tracker silent error"));
 })();
+
