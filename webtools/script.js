@@ -1,7 +1,7 @@
 /**
- * TJ SOSMED TOOLS - MASTER SCRIPT (MOBILE TOUCH FIX)
+ * TJ SOSMED TOOLS - MASTER SCRIPT (MOBILE TOUCH FIXED FINAL)
  * Developed by Ghaza Algifari (2025)
- * Fixes: File Picker Touch Conflict, Memory Crash, & Format Support
+ * Fixes: Mobile File Picker Conflict, Memory Crash & Hidden Input Bug
  */
 
 // ==========================================
@@ -15,12 +15,44 @@ const videoTitle = document.getElementById('videoTitle');
 const apiKey = '804ff958ecmshe6d23ba4fd2be6bp154905jsn9d83ded4d839'; 
 const apiHost = 'social-media-video-downloader.p.rapidapi.com';
 
-// Batas aman resolusi (4K) agar HP tidak crash saat manipulasi gambar
+// Batas resolusi aman untuk HP (4K) agar tidak crash
 const MAX_MOBILE_DIMENSION = 4096; 
 
 // ==========================================
 // 2. FUNGSI BANTUAN (HELPER)
 // ==========================================
+
+// Helper: Memastikan Input File bisa diklik di Mobile
+function fixMobileInput(inputId) {
+    const el = document.getElementById(inputId);
+    if (el) {
+        // Hapus atribut hidden yang memblokir iPhone
+        el.removeAttribute('hidden');
+        // Pastikan style membuatnya "ada" tapi tak terlihat
+        el.style.display = 'block';
+        el.style.height = '0';
+        el.style.width = '0';
+        el.style.opacity = '0';
+        el.style.position = 'absolute';
+        el.style.overflow = 'hidden';
+        el.style.padding = '0';
+        el.style.margin = '0';
+    }
+}
+
+// Helper: Resize Gambar Anti-Crash
+function calculateSafeSize(w, h) {
+    if (w > MAX_MOBILE_DIMENSION || h > MAX_MOBILE_DIMENSION) {
+        if (w > h) {
+            h = Math.round(h * (MAX_MOBILE_DIMENSION / w));
+            w = MAX_MOBILE_DIMENSION;
+        } else {
+            w = Math.round(w * (MAX_MOBILE_DIMENSION / h));
+            h = MAX_MOBILE_DIMENSION;
+        }
+    }
+    return { w, h };
+}
 
 // Fungsi Download Paksa
 async function forceDownload(url, filename, btn) {
@@ -58,20 +90,6 @@ async function forceDownload(url, filename, btn) {
     }
 }
 
-// Helper: Resize Dimensi agar aman di Mobile
-function calculateSafeSize(w, h) {
-    if (w > MAX_MOBILE_DIMENSION || h > MAX_MOBILE_DIMENSION) {
-        if (w > h) {
-            h = Math.round(h * (MAX_MOBILE_DIMENSION / w));
-            w = MAX_MOBILE_DIMENSION;
-        } else {
-            w = Math.round(w * (MAX_MOBILE_DIMENSION / h));
-            h = MAX_MOBILE_DIMENSION;
-        }
-    }
-    return { w, h };
-}
-
 // ==========================================
 // 3. FITUR: LIVE TICKER
 // ==========================================
@@ -79,11 +97,8 @@ function calculateSafeSize(w, h) {
     const tickerContent = document.getElementById('tickerContent');
     if (!tickerContent) return;
 
-    const backupTrends = [
-        "Banjir Bandang Sumut", "Menteri Viral", "Gempa Terkini", 
-        "Pajak Naik", "Timnas Indonesia", "Harga Emas", "Wisata Viral"
-    ];
-
+    const backupTrends = ["Banjir Bandang Sumut", "Menteri Viral", "Gempa Terkini", "Pajak Naik", "Timnas Indonesia"];
+    
     function renderTicker(items) {
         let html = "";
         items.forEach(topic => {
@@ -113,6 +128,7 @@ function calculateSafeSize(w, h) {
         }
     } catch (error) { console.warn("Gagal load Google Trends"); }
 })();
+
 
 // ==========================================
 // 4. FITUR: MEDIA DOWNLOADER
@@ -199,8 +215,9 @@ if (document.getElementById('urlInput')) {
     };
 }
 
+
 // ==========================================
-// 5. FITUR: METADATA REMOVER (TOUCH FIX)
+// 5. FITUR: METADATA REMOVER (MOBILE FIX)
 // ==========================================
 if (document.getElementById('dropZone') && !document.getElementById('dropZoneViewer')) {
     const dropZone = document.getElementById('dropZone');
@@ -209,16 +226,19 @@ if (document.getElementById('dropZone') && !document.getElementById('dropZoneVie
     const previewImage = document.getElementById('previewImage');
     const cleanBtn = document.getElementById('downloadCleanBtn');
 
-    // FIX TOUCH CONFLICT: Jangan trigger jika yang diklik adalah tombol/input itu sendiri
+    // 1. Perbaiki Input File secara otomatis
+    fixMobileInput('fileInput');
+
+    // 2. Cegah Konflik Klik di Mobile
     dropZone.addEventListener('click', (e) => {
-        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
+        // Jika yang diklik adalah tombol atau icon di dalam tombol, JANGAN trigger klik lagi
+        if (e.target.closest('button') || e.target.closest('input')) return;
         fileInput.click();
     });
 
     fileInput.addEventListener('change', () => { if (fileInput.files.length) processFile(fileInput.files[0]); });
 
     function processFile(file) {
-        // Hapus validasi ketat
         if (!file.type.match('image.*')) { alert("Harap upload file gambar!"); return; }
         
         loadingDiv.classList.remove('hidden'); 
@@ -259,8 +279,9 @@ if (document.getElementById('dropZone') && !document.getElementById('dropZoneVie
     }
 }
 
+
 // ==========================================
-// 6. FITUR: METADATA VIEWER (TOUCH FIX)
+// 6. FITUR: METADATA VIEWER (MOBILE FIX)
 // ==========================================
 if (document.getElementById('viewerPage')) {
     const dropZone = document.getElementById('dropZoneViewer');
@@ -271,9 +292,12 @@ if (document.getElementById('viewerPage')) {
     const gpsContainer = document.getElementById('gpsContainer');
     const mapsLink = document.getElementById('mapsLink');
 
-    // FIX TOUCH CONFLICT
+    // 1. Perbaiki Input File
+    fixMobileInput('fileInputViewer');
+
+    // 2. Cegah Konflik Klik
     dropZone.addEventListener('click', (e) => {
-        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
+        if (e.target.closest('button') || e.target.closest('input')) return;
         fileInput.click();
     });
 
@@ -293,12 +317,10 @@ if (document.getElementById('viewerPage')) {
         resultDiv.classList.add('hidden'); 
         document.querySelector('.upload-area').classList.add('hidden');
         
-        // 1. Preview Dulu (Apapun formatnya)
         const reader = new FileReader();
         reader.onload = function(e) { imgPreview.src = e.target.result; };
         reader.readAsDataURL(file);
 
-        // 2. Cek Format JPG
         const isJpeg = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.name.toLowerCase().endsWith('.jpg');
 
         if (!isJpeg) {
@@ -312,7 +334,6 @@ if (document.getElementById('viewerPage')) {
             return;
         }
 
-        // 3. Baca EXIF
         EXIF.getData(file, function() {
             loadingDiv.classList.add('hidden'); 
             resultDiv.classList.remove('hidden');
@@ -362,10 +383,10 @@ if (document.getElementById('viewerPage')) {
     }
 }
 
+
 // ==========================================
-// 7-10. FITUR LAIN (CAPTION, HASHTAG, CAROUSEL, WATERMARK)
+// 7. FITUR LAIN (TETAP ADA)
 // ==========================================
-// (Bagian ini tidak perlu diubah, copas saja dari file sebelumnya)
 
 if (document.getElementById('captionPage')) {
     const resultBox = document.getElementById('result');
@@ -486,9 +507,7 @@ if (document.getElementById('watermarkPage')) {
     });
 
     function applyWatermarkToCanvas(context, image, w, h) {
-        // Simple draw logic (Full cover)
         if (currentRatio !== 'original') {
-             // Crop logic omitted for brevity, assuming similar to carousel
              context.drawImage(image, 0, 0, w, h);
         } else {
              context.drawImage(image, 0, 0, w, h);
@@ -644,7 +663,7 @@ if (document.getElementById('carouselPage')) {
                 const slideNum = index + 1;
                 const total = loadedImages.length;
                 
-                // Simple Text Drawing for Demo (Replace with real template logic)
+                // Demo Text Drawing (Simple)
                 ctx.fillStyle = "#fff"; ctx.fillRect(0,0,cWidth,cHeight);
                 ctx.drawImage(img, 0, 0, cWidth, cHeight);
                 ctx.fillStyle = "rgba(0,0,0,0.5)"; ctx.fillRect(0, cHeight-100, cWidth, 100);
