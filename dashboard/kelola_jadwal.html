@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Laporan Jadwal</title>
     <link rel="icon" href="https://ghazabegins.cyou/tj/logo.PNG" type="image/png">
-    <script>if(localStorage.getItem('isLoggedIn')!=='true')window.location.href='login';</script>
+    
+    <script>if(localStorage.getItem('isLoggedIn')!=='true')window.location.href='login.html';</script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -18,29 +20,9 @@
             --brd: #333; --row: #252525; --done: #1e3a2a; --mod: #2c2c2c; --inp: #333;
         }
 
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            /* GAMBAR BACKGROUND */
-            background-image: url('../book/css/background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            
-            color: var(--text); margin: 0; padding: 15px; 
-        }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; }
+        .container { max-width: 1200px; margin: 0 auto; background: var(--card); padding: 20px; border-radius: 12px; }
 
-        /* --- EFEK BLUR --- */
-        .bg-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(18, 18, 18, 0.85);
-            z-index: -1;
-            backdrop-filter: blur(5px);
-        }
-
-        .container { max-width: 1200px; margin: 0 auto; background: var(--card); padding: 20px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
-
-        /* HEADER & CONTROLS */
         .header { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
         @media(min-width: 768px) { .header { flex-direction: row; justify-content: space-between; align-items: center; } }
         
@@ -51,7 +33,6 @@
         .btn-neu { background: var(--bg); border: 1px solid var(--brd); color: var(--text); text-decoration: none; }
         .btn-pri { background: var(--acc); color: #000; text-decoration: none; }
         
-        /* TABLE RESPONSIVE */
         .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 10px; border-radius: 8px; border: 1px solid var(--brd); }
         table { width: 100%; border-collapse: collapse; min-width: 800px; } 
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--brd); font-size: 0.9rem; }
@@ -71,8 +52,7 @@
         .act-btns { display: flex; gap: 10px; margin-top: 10px; }
         .btn-full { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
 
-        /* DARK MODE SWITCH POJOK */
-        .top-corner { position: absolute; top: 15px; right: 15px; display: flex; gap: 10px; align-items: center; z-index: 10; }
+        .top-corner { position: absolute; top: 15px; right: 15px; display: flex; gap: 10px; align-items: center; }
         .theme-switch { display: inline-block; height: 24px; position: relative; width: 44px; }
         .theme-switch input { display:none; }
         .slider { background: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
@@ -80,28 +60,24 @@
         input:checked + .slider { background: var(--acc); }
         input:checked + .slider:before { transform: translateX(20px); }
 
-        @media print { .controls, .action-cell, .top-corner { display: none; } body { background: #fff; color: #000; } table { border: 1px solid #000; } th, td { border: 1px solid #000; } }
+        #loading { display: none; text-align: center; padding: 20px; font-weight: bold; color: var(--acc); }
     </style>
 </head>
 <body>
-
-    <div class="bg-overlay"></div>
 
     <div class="top-corner">
         <label class="theme-switch">
             <input type="checkbox" id="checkbox" />
             <div class="slider round"></div>
         </label>
-        <a href="./" style="text-decoration:none;font-size:1.5rem">🏠</a>
+        <a href="index.html" style="text-decoration:none;font-size:1.5rem">🏠</a>
     </div>
 
     <div class="container">
         <div class="header">
             <h2 style="margin:0">Laporan Jadwal</h2>
             <div class="controls">
-                <a href="../" class="btn btn-neu">🌏 Web</a>
-                <a href="./" class="btn btn-neu">🏠 Home</a>
-                
+                <a href="index.html" class="btn btn-neu">🏠 Home</a>
                 <select id="fBulan" class="filter-select" onchange="load()"><option value="all">Bulan</option>
                     <option value="0">Jan</option><option value="1">Feb</option><option value="2">Mar</option><option value="3">Apr</option>
                     <option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Agu</option>
@@ -109,16 +85,16 @@
                 </select>
                 <select id="fTahun" class="filter-select" onchange="load()"><option value="all">Tahun</option></select>
                 <button class="btn btn-neu" onclick="load()">↻</button>
-                <a href="jadwal_bola" class="btn btn-pri">+ Baru</a>
+                <a href="jadwal_bola.html" class="btn btn-pri">+ Baru</a>
             </div>
         </div>
 
         <div class="table-wrap">
+            <div id="loading">⏳ Loading...</div>
             <table id="tbl">
                 <thead><tr><th>Tgl</th><th>Waktu</th><th>Tim</th><th>Venue</th><th>Sts</th><th class="action-cell">Aksi</th></tr></thead>
                 <tbody id="tbody"></tbody>
             </table>
-            <div id="loading" style="text-align:center; padding:20px; opacity:0.6">⏳ Loading...</div>
         </div>
     </div>
 
@@ -142,8 +118,10 @@
     </div>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwJGLSActDA3XA3SGZscC04W85P1TTeXEvBDXoGTd_uxCOM_ENNCIk_jD9MJIMl9B979g/exec'; // GANTI URL DISINI
+        // --- PASTE URL BARU ANDA DI BAWAH INI ---
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwJGLSActDA3XA3SGZscC04W85P1TTeXEvBDXoGTd_uxCOM_ENNCIk_jD9MJIMl9B979g/exec';
 
+        // --- DARK MODE LOGIC ---
         const sw = document.querySelector('.theme-switch input');
         const th = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', th);
@@ -154,17 +132,34 @@
         });
 
         let allData = [];
+        
         function load() {
-            document.getElementById('loading').style.display='block';
+            const loading = document.getElementById('loading');
+            loading.style.display='block';
+            loading.innerHTML='⏳ Memuat Data...';
             document.getElementById('tbody').innerHTML='';
-            fetch(scriptURL).then(r=>r.json()).then(d=>{
-                document.getElementById('loading').style.display='none';
-                d.sort((a,b)=>new Date(a.Tanggal)-new Date(b.Tanggal));
+            
+            fetch(scriptURL)
+            .then(r => r.json())
+            .then(d => {
+                loading.style.display='none';
+                if(d.error) { alert('Server Error: ' + d.error); return; }
+
+                // Sortir Tanggal
+                d.sort((a,b) => new Date(a.Tanggal) - new Date(b.Tanggal));
                 allData = d;
-                const years = [...new Set(d.map(x=>new Date(x.Tanggal).getFullYear()))].sort();
+                
+                // Isi Filter Tahun Otomatis
+                const years = [...new Set(d.map(x => new Date(x.Tanggal).getFullYear()))].sort();
                 const selY = document.getElementById('fTahun');
-                if(selY.options.length===1) years.forEach(y=>selY.innerHTML+=`<option value="${y}">${y}</option>`);
+                if(selY.options.length === 1) {
+                    years.forEach(y => selY.innerHTML += `<option value="${y}">${y}</option>`);
+                }
                 render();
+            })
+            .catch(err => {
+                loading.innerHTML = '❌ Gagal koneksi ke server. <br> Cek internet atau URL Script.';
+                console.error(err);
             });
         }
 
@@ -173,17 +168,28 @@
             const y = document.getElementById('fTahun').value;
             const tbody = document.getElementById('tbody');
             tbody.innerHTML = '';
+            tbody.style.opacity = '1';
+
             const filtered = allData.filter(d => {
                 if(!d.Tanggal) return false;
                 const dt = new Date(d.Tanggal);
+                // Handle parsing error jika tanggal tidak valid
+                if(isNaN(dt.getTime())) return false; 
                 return (m==='all' || dt.getMonth()==m) && (y==='all' || dt.getFullYear()==y);
             });
-            if(filtered.length===0) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center">Kosong</td></tr>'; return; }
+
+            if(filtered.length===0) { 
+                tbody.innerHTML='<tr><td colspan="6" style="text-align:center; padding:20px; opacity:0.6">Data tidak ditemukan</td></tr>'; 
+                return; 
+            }
+
             filtered.forEach(i => {
                 const isDone = i.Status === 'Selesai';
                 const tr = document.createElement('tr');
                 if(isDone) tr.className = 'selesai';
+                
                 let tgl = new Date(i.Tanggal).toLocaleDateString('id-ID',{day:'numeric',month:'short'});
+                
                 tr.innerHTML = `
                     <td>${tgl}<br><small style="opacity:0.6">${i.Hari}</small></td>
                     <td><b>${i.Waktu}</b></td>
@@ -199,32 +205,81 @@
                 tbody.appendChild(tr);
             });
         }
+
         function act(action, row) {
-            if(!confirm(action==='delete'?'Hapus?':'Selesai?')) return;
-            const fd = new FormData(); fd.append('action',action); fd.append('row',row);
-            fetch(scriptURL, {method:'POST', body:fd}).then(()=>load());
+            let msg = action === 'delete' ? 'Hapus data ini?' : 'Tandai selesai?';
+            if(!confirm(msg)) return;
+            
+            // UI Loading Feedback
+            const loading = document.getElementById('loading');
+            const tbody = document.getElementById('tbody');
+            loading.style.display = 'block'; 
+            loading.innerHTML = '⏳ Menyimpan perubahan...';
+            tbody.style.opacity = '0.3'; 
+            
+            const fd = new FormData(); 
+            fd.append('action', action); 
+            fd.append('row', row);
+            
+            fetch(scriptURL, {method: 'POST', body: fd})
+            .then(r => r.json())
+            .then(res => {
+                if(res.error) {
+                    alert('Gagal: ' + res.error);
+                } else {
+                    console.log(res.result);
+                    load(); // Reload data otomatis
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Koneksi Error. Data tidak tersimpan.");
+                loading.style.display = 'none';
+                tbody.style.opacity = '1';
+            });
         }
+
         function edit(i) {
             document.getElementById('e_row').value = i.row;
             document.getElementById('e_waktu').value = i.Waktu;
             document.getElementById('e_tim').value = i.Tim;
             document.getElementById('e_venue').value = i.Venue;
+            
+            // Konversi tanggal agar bisa masuk ke input type="date"
             const d = new Date(i.Tanggal);
-            document.getElementById('e_tgl').value = d.toISOString().split('T')[0];
+            const localDate = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+            document.getElementById('e_tgl').value = localDate;
+            
             document.getElementById('e_hari').value = i.Hari;
             document.getElementById('modalEdit').classList.add('active');
         }
+
         document.getElementById('e_tgl').addEventListener('change', function() {
             const d = new Date(this.value);
             if(!isNaN(d)) document.getElementById('e_hari').value = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'][d.getDay()];
         });
+
         document.getElementById('formEdit').addEventListener('submit', function(e) {
             e.preventDefault();
-            fetch(scriptURL, {method:'POST', body:new FormData(this)}).then(()=>{
+            const btn = this.querySelector('button[type="submit"]');
+            const ori = btn.innerText;
+            btn.innerText = "Menyimpan..."; btn.disabled = true;
+
+            fetch(scriptURL, {method:'POST', body:new FormData(this)})
+            .then(r=>r.json())
+            .then(() => {
                 document.getElementById('modalEdit').classList.remove('active');
                 load();
+            })
+            .catch(err => {
+                alert("Gagal menyimpan edit.");
+                console.error(err);
+            })
+            .finally(() => {
+                btn.innerText = ori; btn.disabled = false;
             });
         });
+
         load();
     </script>
 </body>
